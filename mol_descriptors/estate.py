@@ -9,6 +9,15 @@ import numpy
 
 class EstateDescriptors:
 
+    def __init__(self):
+
+        self.labels = []
+        for i in range(1,79):
+            self.labels.append('S' + str(i))
+            self.labels.append('Smax' + str(i))
+            self.labels.append('Smin' + str(i))
+        self.labels.append('S79')
+
     def _CalculateEState(self, mol, skipH=1):
         """
         **Internal used only**
@@ -141,13 +150,6 @@ class EstateDescriptors:
 
         return result
 
-    labels = []
-    for i in range(1,79):
-        labels.append('S' + str(i))
-        labels.append('Smax' + str(i))
-        labels.append('Smin' + str(i))
-    labels.append('S79')
-
 
     def getEstate(self, df_x):
         """
@@ -161,12 +163,12 @@ class EstateDescriptors:
         """
 
         r = {}
-        for key in labels:
+        for key in self.labels:
             r[key] = []
         for m in df_x['Smiles']:
             mol = Chem.MolFromSmiles(m)
             res = self._GetEstateforMol(mol)
-            for key in labels:
+            for key in self.labels:
                 r[key].append(res[key])
         estate_descriptors = pd.DataFrame(r).round(3)
         return pd.DataFrame(estate_descriptors)

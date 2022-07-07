@@ -113,7 +113,7 @@ class GearyDescriptors:
         return res
 
 
-    def getGearyAuto(df_x):
+    def getGearyAuto(self, df_x):
         """
         Calculates all Geary Auto-correlation descriptors for the dataset
             Parameters:

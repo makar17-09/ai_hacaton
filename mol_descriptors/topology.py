@@ -240,7 +240,7 @@ class TopologyDescriptors:
         if temp > 0:
             return numpy.log10(temp)
         else:
-            return "NaN"
+            return 0
 
 
     def CalculateBertzCT(self, mol):
@@ -255,7 +255,7 @@ class TopologyDescriptors:
         if temp > 0:
             return numpy.log10(temp)
         else:
-            return "NaN"
+            return 0
 
 
     def CalculateHarary(self, mol):
@@ -384,7 +384,7 @@ class TopologyDescriptors:
         if res > 0:
             return numpy.log10(res)
         else:
-            return None
+            return 0
 
 
     def CalculateHarmonicTopoIndex(self, mol):
@@ -400,7 +400,10 @@ class TopologyDescriptors:
             deltas.remove(0)
         deltas = numpy.array(deltas, 'd')
         nAtoms = mol.GetNumAtoms()
-        res = nAtoms / sum(1. / deltas)
+        if len(deltas) != 0 and all(deltas) != 0:
+            res = nAtoms / sum(1. / deltas)
+        else:
+            return 0
         return res
 
 
@@ -434,7 +437,7 @@ class TopologyDescriptors:
         Distance = Chem.GetDistanceMatrix(mol)
         n = int(Distance.max())
         if n == 1e8:
-            return None
+            return 0
 
         else:
             res = 0.0
@@ -487,7 +490,7 @@ class TopologyDescriptors:
         r = {}
         for key in self._Topology.keys():
             r[key] = []
-        for m in df_x['SMILES']:
+        for m in df_x['Smiles']:
             mol = Chem.MolFromSmiles(m)
             res = self.GetTopologyofMol(mol)
             for key in self._Topology.keys():

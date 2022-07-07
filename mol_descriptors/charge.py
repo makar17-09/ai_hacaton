@@ -380,8 +380,10 @@ class ChargeDescriptors:
             res.append(float(atom.GetProp('_GasteigerCharge')))
         cc = [numpy.absolute(res[x.GetBeginAtom().GetIdx()] - res[x.GetEndAtom().GetIdx()]) for x in mol.GetBonds()]
         B = len(mol.GetBonds())
-
-        return round(sum(cc) / B, 3)
+        if B != 0:
+            return round(sum(cc) / B, 3)
+        else:
+            return 0
 
 
     def CalculateSubmolPolarityPara(self, mol):
